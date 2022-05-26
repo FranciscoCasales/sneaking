@@ -1,10 +1,17 @@
 import { SnakeDirections } from './enums/snake-directions';
 
-export interface SnakePart {
-  x: number;
-  y: number;
+export interface GameElement {
+  x: number,
+  y: number,
+  pastState?: Omit<GameElement, 'emoji'>
+  emoji: string,
 }
 
-export interface SnakePartWithPastInfo extends SnakePart {
-  pastState?: SnakeWithDirection;
+export interface DirectionState {
+  currentDirection: SnakeDirections,
+  incomingDirection: SnakeDirections,
 }
+
+export type SnakePart = Omit<GameElement, 'emoji'>;
+
+export type FeedState = Omit<GameElement, 'pastState'>;
