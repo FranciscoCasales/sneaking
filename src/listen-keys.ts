@@ -3,7 +3,6 @@ import { SnakeDirections } from './enums/snake-directions';
 const listenKeys = () => {
   let direction: SnakeDirections = SnakeDirections.RIGHT;
   window.addEventListener('keyup', event => {
-    console.log(event.key);
     event.preventDefault();
     switch (event.key) {
       case SnakeDirections.LEFT:

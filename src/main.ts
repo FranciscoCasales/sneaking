@@ -1,20 +1,27 @@
-import './style.css'
-import { renderSnake } from './snake'
+import './style.css';
+import { renderSnake, renderSnakeFeed } from './render-element';
 import { cleanGameBoard, drawGameBoard } from './game-board';
-import { INITIAL_SNAKE_STRUCTURE } from './constants/initial-snake-structure';
 import { moveSnake } from './move-snake';
 import { listenKeys } from './listen-keys';
+import { detectCollision } from './detect-collition';
+import { updateIncomingDirection } from './state/direction-state';
 
-const gameContext = drawGameBoard();
-let snake = INITIAL_SNAKE_STRUCTURE;
-renderSnake(gameContext, snake);
+const gameCanvas = drawGameBoard();
+const gameContext = gameCanvas.getContext('2d') as CanvasRenderingContext2D;
+renderSnake(gameContext);
 const { getDirection } = listenKeys();
+let activeFeed = false;
+let isFirstLoop = true;
 
 const gameLoop = () => {
-  snake = moveSnake(snake, getDirection());
+  updateIncomingDirection(getDirection());
+  moveSnake();
   cleanGameBoard(gameContext);
-  renderSnake(gameContext, snake);
+  activeFeed = !detectCollision(isFirstLoop);
+  renderSnake(gameContext);
+  activeFeed = renderSnakeFeed(gameContext, gameCanvas, activeFeed);
+  isFirstLoop = false;
   window.requestAnimationFrame(gameLoop);
-}
+};
 
 gameLoop();
