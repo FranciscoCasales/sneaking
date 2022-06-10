@@ -1,34 +1,28 @@
 import { GAME_PARAMETERS } from '../constants/game-parameters';
+import { detectCollisions } from '../detect-collision';
 import { FeedState } from '../typings';
 import { getSnakeStructure } from './snake-state';
 
 const feedState: FeedState = {
-  x: 0,
-  y: 0,
-  emoji: '🍎'
+  x: 300,
+  y: 300,
+  width: GAME_PARAMETERS.SNAKE_FEED_SIZE,
+  height: GAME_PARAMETERS.SNAKE_FEED_SIZE,
+  emoji: '🍎',
+  mustBeUpdated: true
 };
 
-const updateCoordinates = (width: number, height: number): FeedState => {
-  let xPos = 50;
-  let yPos = 20;
+const updateCoordinates = (containerWidth: number, containerHeight: number): FeedState => {
+  let xPos;
+  let yPos;
+  const { width, height } = feedState;
   do {
-    xPos = Math.floor(Math.random() * ((width - GAME_PARAMETERS.SNAKE_FEED_SIZE) / GAME_PARAMETERS.SNAKE_PART_SIZE)) * GAME_PARAMETERS.SNAKE_PART_SIZE;
-    yPos = Math.floor(Math.random() * ((height - GAME_PARAMETERS.SNAKE_FEED_SIZE) / GAME_PARAMETERS.SNAKE_PART_SIZE)) * GAME_PARAMETERS.SNAKE_PART_SIZE;
-  } while (validateIfNotColliding(xPos, yPos));
-  feedState.x = xPos;
-  feedState.y = yPos;
+    xPos = Math.floor(Math.random() * ((containerWidth - width) / width)) * width;
+    yPos = Math.floor(Math.random() * ((containerHeight - height) / height)) * height;
+    feedState.x = xPos;
+    feedState.y = yPos;
+  } while (detectCollisions(feedState, getSnakeStructure()));
   return { ...feedState };
-};
-
-const validateIfNotColliding = (x: number, y: number): boolean => {
-  return getSnakeStructure().map(({ x: snakeX, y: snakeY }) => {
-    if (snakeX >= x && snakeX <= (x + GAME_PARAMETERS.SNAKE_PART_SIZE)) {
-      return true;
-    } else if (snakeY >= y && snakeY <= (y + GAME_PARAMETERS.SNAKE_PART_SIZE)) {
-      return true;
-    }
-    return false;
-  }).reduce((prev, curr) => prev || curr);
 };
 
 const updateFeedEmoji = (emoji: string): FeedState => {
@@ -45,9 +39,18 @@ const updateAllFeedState = (x: number, y: number, emoji: string): FeedState => {
 
 const getFeedState = (): FeedState => ({ ...feedState });
 
+const markFeedAsUpdating = (): void => { feedState.mustBeUpdated = true; };
+
+const markFeedAsUpdated = (): void => { feedState.mustBeUpdated = false; };
+
+const getFeedUpdateState = (): boolean => Boolean(feedState.mustBeUpdated);
+
 export {
   updateCoordinates,
   updateFeedEmoji,
   updateAllFeedState,
-  getFeedState
+  getFeedState,
+  markFeedAsUpdating,
+  markFeedAsUpdated,
+  getFeedUpdateState
 };
