@@ -2,13 +2,19 @@ import { GAME_PARAMETERS } from '../constants/game-parameters';
 import { SnakePart } from '../typings';
 
 const INITIAL_POINT = 60;
+const INITIAL_SNAKE_HEAD: SnakePart = {
+  x: INITIAL_POINT,
+  y: 20,
+  width: GAME_PARAMETERS.SNAKE_PART_SIZE,
+  height: GAME_PARAMETERS.SNAKE_PART_SIZE
+};
 
 let snake: SnakePart[] = [
-  { x: INITIAL_POINT, y: 20 },
-  { x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE, y: 20 },
-  { x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 2, y: 20 },
-  { x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 3, y: 20 },
-  { x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 4, y: 20 }
+  INITIAL_SNAKE_HEAD,
+  { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE },
+  { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 2 },
+  { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 3 },
+  { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 4 }
 ];
 
 const getSnakeStructure = (): SnakePart[] => {
@@ -32,23 +38,23 @@ const addSnakePart = (): SnakePart[] => {
   let newPart: SnakePart;
   if (lastPartX === beforeLastPartX) {
     if (lastPartY > beforeLastPartY) {
-      newPart = { x: lastPartX, y: lastPartY + GAME_PARAMETERS.SNAKE_PART_SIZE, pastState: lastPart };
+      newPart = { ...lastPart, x: lastPartX, y: lastPartY + GAME_PARAMETERS.SNAKE_PART_SIZE, pastState: lastPart };
     } else {
-      newPart = { x: lastPartX, y: lastPartY - GAME_PARAMETERS.SNAKE_PART_SIZE, pastState: lastPart };
+      newPart = { ...lastPart, x: lastPartX, y: lastPartY - GAME_PARAMETERS.SNAKE_PART_SIZE, pastState: lastPart };
     }
   } else if (lastPartY === beforeLastPartY) {
     if (lastPartX > beforeLastPartX) {
-      newPart = { x: lastPartX + GAME_PARAMETERS.SNAKE_PART_SIZE, y: lastPartY, pastState: lastPart };
+      newPart = { ...lastPart, x: lastPartX + GAME_PARAMETERS.SNAKE_PART_SIZE, y: lastPartY, pastState: lastPart };
     } else {
-      newPart = { x: lastPartX - GAME_PARAMETERS.SNAKE_PART_SIZE, y: lastPartY, pastState: lastPart };
+      newPart = { ...lastPart, x: lastPartX - GAME_PARAMETERS.SNAKE_PART_SIZE, y: lastPartY, pastState: lastPart };
     }
   } else {
     const distanceBetweenPartsX = Math.abs(lastPartX - beforeLastPartX);
     const distanceBetweenPartsY = Math.abs(lastPartY - beforeLastPartY);
     if (distanceBetweenPartsX < distanceBetweenPartsY) {
-      newPart = { x: lastPartX, y: lastPartY + GAME_PARAMETERS.SNAKE_PART_SIZE, pastState: lastPart };
+      newPart = { ...lastPart, x: lastPartX, y: lastPartY + GAME_PARAMETERS.SNAKE_PART_SIZE, pastState: lastPart };
     } else {
-      newPart = { x: lastPartX + GAME_PARAMETERS.SNAKE_PART_SIZE, y: lastPartY, pastState: lastPart };
+      newPart = { ...lastPart, x: lastPartX + GAME_PARAMETERS.SNAKE_PART_SIZE, y: lastPartY, pastState: lastPart };
     }
   }
   snake.push(newPart);

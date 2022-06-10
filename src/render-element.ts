@@ -1,5 +1,5 @@
 import { GAME_PARAMETERS } from './constants/game-parameters';
-import { getFeedState, updateCoordinates } from './state/feed-state';
+import { getFeedState, getFeedUpdateState, markFeedAsUpdated, updateCoordinates } from './state/feed-state';
 import { getSnakeStructure } from './state/snake-state';
 
 const renderSnake = (gameContext: CanvasRenderingContext2D) => {
@@ -12,10 +12,11 @@ const renderSnake = (gameContext: CanvasRenderingContext2D) => {
   });
 };
 
-const renderSnakeFeed = (gameContext: CanvasRenderingContext2D, { width, height }: HTMLCanvasElement, activeFeed: boolean): boolean => {
+const renderSnakeFeed = (gameContext: CanvasRenderingContext2D, { width, height }: HTMLCanvasElement): boolean => {
   let feedState = getFeedState();
-  if (!activeFeed) {
+  if (feedState.mustBeUpdated) {
     feedState = updateCoordinates(width, height);
+    markFeedAsUpdated();
   }
   gameContext.font = `${GAME_PARAMETERS.SNAKE_FEED_SIZE}px Sans-Serif`;
   gameContext.textAlign = 'left';
