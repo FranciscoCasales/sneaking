@@ -1,5 +1,6 @@
 import { getFeedState, markFeedAsUpdating } from './state/feed-state';
-import { addSnakePart, getSnakeHead } from './state/snake-state';
+import { setGameOver } from './state/game-state';
+import { addSnakePart, getSnakeBody, getSnakeHead } from './state/snake-state';
 import { GameElement } from './typings';
 
 const detectIfSnakeIsEating = (): void => {
@@ -11,6 +12,15 @@ const detectIfSnakeIsEating = (): void => {
     markFeedAsUpdating();
   }
 };
+
+const detectCollisionsWithBody = () => {
+  const snakeHead = getSnakeHead();
+  const snakeBody = getSnakeBody();
+  const isSnakeCollidingWithBody = detectCollisions(snakeHead, snakeBody);
+  if (isSnakeCollidingWithBody) {
+    setGameOver();
+  }
+}
 
 const detectCollision = (
   gameElement1: GameElement,
@@ -35,4 +45,18 @@ const detectCollisions = (gameElement: GameElement, gameElements: GameElement[])
     .reduce((prev, curr) => prev || curr);
 };
 
-export { detectCollision, detectIfSnakeIsEating, detectCollisions };
+const detectOutOfBounds = (gameElement: GameElement, container: { width: number, height: number }): void => {
+  const { x, y, width, height } = gameElement;
+  const { width: containerWidth, height: containerHeight } = container;
+  const outOfBounds = (
+    x < 0 ||
+    y < 0 ||
+    x + width > containerWidth ||
+    y + height > containerHeight
+  );
+  if (outOfBounds) {
+    setGameOver();
+  }
+}
+
+export { detectCollision, detectIfSnakeIsEating, detectCollisions, detectOutOfBounds, detectCollisionsWithBody };

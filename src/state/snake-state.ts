@@ -1,7 +1,7 @@
 import { GAME_PARAMETERS } from '../constants/game-parameters';
 import { SnakePart } from '../typings';
 
-const INITIAL_POINT = 60;
+const INITIAL_POINT = 80;
 const INITIAL_SNAKE_HEAD: SnakePart = {
   x: INITIAL_POINT,
   y: 20,
@@ -9,13 +9,21 @@ const INITIAL_SNAKE_HEAD: SnakePart = {
   height: GAME_PARAMETERS.SNAKE_PART_SIZE
 };
 
-let snake: SnakePart[] = [
-  INITIAL_SNAKE_HEAD,
-  { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE },
-  { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 2 },
-  { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 3 },
-  { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 4 }
-];
+let snake: SnakePart[] = initializeSnake();
+
+function initializeSnake(): SnakePart[] {
+  return [
+    INITIAL_SNAKE_HEAD,
+    { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE },
+    { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 2 },
+    { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 3 },
+    { ...INITIAL_SNAKE_HEAD, x: INITIAL_POINT - GAME_PARAMETERS.SNAKE_PART_SIZE * 4 }
+  ];
+}
+
+const resetSnakeState = () => {
+  snake = initializeSnake();
+}
 
 const getSnakeStructure = (): SnakePart[] => {
   return [...snake];
@@ -24,6 +32,10 @@ const getSnakeStructure = (): SnakePart[] => {
 const getSnakeHead = (): SnakePart => {
   return snake[0];
 };
+
+const getSnakeBody = (): SnakePart[] => {
+  return snake.slice(2);
+}
 
 const updateSnakeStructure = (newSnake: SnakePart[]): SnakePart[] => {
   snake = [...newSnake];
@@ -61,4 +73,4 @@ const addSnakePart = (): SnakePart[] => {
   return [...snake];
 };
 
-export { getSnakeStructure, updateSnakeStructure, addSnakePart, getSnakeHead };
+export { getSnakeStructure, updateSnakeStructure, addSnakePart, getSnakeHead, resetSnakeState, getSnakeBody };

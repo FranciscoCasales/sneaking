@@ -1,5 +1,14 @@
 import { SnakeDirections } from './enums/snake-directions';
 
+export interface GameState {
+  score: number;
+  speed: number;
+  feedStyle: string;
+  isGameOver: boolean;
+  gameLoop: Function;
+  signOverlay: HTMLDivElement;
+  isPaused: boolean;
+}
 export interface GameElement {
   x: number;
   y: number;
