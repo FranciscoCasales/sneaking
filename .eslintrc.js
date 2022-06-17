@@ -16,6 +16,6 @@ module.exports = {
   ],
   rules: {
     semi: ['error', 'always'],
-    'trailing-comma': ['error', 'always']
+    'comma-dangle': off,
   }
-}
+};

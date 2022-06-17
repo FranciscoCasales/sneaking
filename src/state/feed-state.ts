@@ -3,14 +3,22 @@ import { detectCollisions } from '../detect-collision';
 import { FeedState } from '../typings';
 import { getSnakeStructure } from './snake-state';
 
-const feedState: FeedState = {
-  x: 300,
-  y: 300,
-  width: GAME_PARAMETERS.SNAKE_FEED_SIZE,
-  height: GAME_PARAMETERS.SNAKE_FEED_SIZE,
-  emoji: '🍎',
-  mustBeUpdated: true
+const feedState: FeedState = initializeFeed();
+
+function initializeFeed(): FeedState {
+  return {
+    x: 300,
+    y: 300,
+    width: GAME_PARAMETERS.SNAKE_FEED_SIZE,
+    height: GAME_PARAMETERS.SNAKE_FEED_SIZE,
+    emoji: '🍎',
+    mustBeUpdated: true
+  };
 };
+
+const resetFeedState = () => {
+  feedState.mustBeUpdated = true;
+}
 
 const updateCoordinates = (containerWidth: number, containerHeight: number): FeedState => {
   let xPos;
@@ -43,8 +51,6 @@ const markFeedAsUpdating = (): void => { feedState.mustBeUpdated = true; };
 
 const markFeedAsUpdated = (): void => { feedState.mustBeUpdated = false; };
 
-const getFeedUpdateState = (): boolean => Boolean(feedState.mustBeUpdated);
-
 export {
   updateCoordinates,
   updateFeedEmoji,
@@ -52,5 +58,5 @@ export {
   getFeedState,
   markFeedAsUpdating,
   markFeedAsUpdated,
-  getFeedUpdateState
+  resetFeedState
 };

@@ -7,6 +7,11 @@ const snakeDirection: DirectionState = {
   incomingDirection: SnakeDirections.RIGHT
 };
 
+const resetSnakeDirectionState = () => {
+  snakeDirection.currentDirection = SnakeDirections.RIGHT;
+  snakeDirection.incomingDirection = SnakeDirections.RIGHT;
+}
+
 const updateCurrentDirection = (x: number, y: number) => {
   const { currentDirection, incomingDirection } = snakeDirection;
   if (
@@ -38,5 +43,6 @@ export {
   updateCurrentDirection,
   updateIncomingDirection,
   getCurrentDirection,
-  getIncomingDirection
+  getIncomingDirection,
+  resetSnakeDirectionState
 };

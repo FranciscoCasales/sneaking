@@ -1,4 +1,5 @@
 import { SnakeDirections } from './enums/snake-directions';
+import { continueGame, isGameOver, isPaused, pauseGame, restartGame } from './state/game-state';
 
 const listenKeys = () => {
   let direction: SnakeDirections = SnakeDirections.RIGHT;
@@ -17,10 +18,26 @@ const listenKeys = () => {
       case SnakeDirections.DOWN:
         direction = SnakeDirections.DOWN;
         break;
+      case ' ':
+      case 'Enter':
+        if (isGameOver()) {
+          direction = SnakeDirections.RIGHT;
+          restartGame();
+        } else {
+          isPause();
+        }
+        break;
     }
   });
   const getDirection = () => direction;
   return { getDirection };
+}
+
+function isPause() {
+  if (isPaused())
+    continueGame();
+  else
+    pauseGame();
 }
 
 export { listenKeys };

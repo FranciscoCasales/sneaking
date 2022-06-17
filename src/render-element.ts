@@ -1,5 +1,5 @@
 import { GAME_PARAMETERS } from './constants/game-parameters';
-import { getFeedState, getFeedUpdateState, markFeedAsUpdated, updateCoordinates } from './state/feed-state';
+import { getFeedState, markFeedAsUpdated, updateCoordinates } from './state/feed-state';
 import { getSnakeStructure } from './state/snake-state';
 
 const renderSnake = (gameContext: CanvasRenderingContext2D) => {
