@@ -7,7 +7,6 @@ import { detectCollisionsWithBody, detectIfSnakeIsEating, detectOutOfBounds } fr
 import { updateIncomingDirection } from './state/direction-state';
 import { getSnakeHead } from './state/snake-state';
 import { isGameOver, isPaused, setGameLoopFunction, startGame } from './state/game-state';
-import { gameOver } from './state/game-over-state';
 
 const gameCanvas = drawGameBoard();
 const gameContext = gameCanvas.getContext('2d') as CanvasRenderingContext2D;
