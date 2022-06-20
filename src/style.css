@@ -3,6 +3,22 @@ body {
   box-sizing: border-box;
 }
 
+:root {
+  --size-small: 640;
+  --size-medium: 1007;
+  --sign-column-size: 1rem;
+  --sign-row-size: 1rem;
+  --sign-cell-margin-size: 0.2rem;
+}
+
+@media only screen and (max-width: 640px) {
+  :root {
+    --sign-column-size: 0.6rem;
+    --sign-row-size: 0.6rem;
+    --sign-cell-margin-size: 0.1rem;
+  }
+}
+
 #sneaking {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,22 +49,22 @@ body {
   display: grid;
   grid-template-columns: repeat(var(--sign-columns), 1fr);
   grid-template-rows: repeat(var(--sign-rows), 1fr);
-  width: calc(1.4rem * var(--sign-columns));
-  height: calc(1.4rem * var(--sign-rows));
+  width: calc((var(--sign-column-size) + var(--sign-cell-margin-size * 2)) * var(--sign-columns));
+  height: calc((var(--sign-row-size) + var(--sign-cell-margin-size) * 2) * var(--sign-rows));
   box-sizing: border-box;
 }
 
 .filled-slot {
   grid-column: var(--slot-number);
-  width: 1rem;
-  height: 1rem;
-  margin: 0.2rem;
+  width: var(--sign-column-size);
+  height: var(--sign-row-size);
+  margin: var(--sign-cell-margin-size);
   background-color: black;
 }
 
 .empty-slot {
   grid-column: var(--slot-number);
-  width: 1rem;
-  height: 1rem;
-  margin: 0.2rem;
+  width: var(--sign-column-size);
+  height: var(--sign-row-size);
+  margin: var(--sign-cell-margin-size);
 }

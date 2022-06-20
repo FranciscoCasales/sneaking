@@ -2,19 +2,18 @@ import './style.css';
 import { renderSnake, renderSnakeFeed } from './render-element';
 import { cleanGameBoard, drawGameBoard } from './game-board';
 import { moveSnake } from './move-snake';
-import { listenKeys } from './listen-keys';
+import { listenKeys, listenTouchPath } from './listen-direction-events';
 import { detectCollisionsWithBody, detectIfSnakeIsEating, detectOutOfBounds } from './detect-collision';
-import { updateIncomingDirection } from './state/direction-state';
 import { getSnakeHead } from './state/snake-state';
 import { isGameOver, isPaused, setGameLoopFunction, startGame } from './state/game-state';
 
 const gameCanvas = drawGameBoard();
 const gameContext = gameCanvas.getContext('2d') as CanvasRenderingContext2D;
 renderSnake(gameContext);
-const { getDirection } = listenKeys();
+listenKeys();
+listenTouchPath();
 
 const gameLoop = () => {
-  updateIncomingDirection(getDirection());
   moveSnake();
   cleanGameBoard(gameContext);
   detectIfSnakeIsEating();
