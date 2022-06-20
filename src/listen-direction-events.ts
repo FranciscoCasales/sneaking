@@ -1,7 +1,9 @@
 import { SnakeDirections } from './enums/snake-directions';
+import { getCurrentDirection, updateIncomingDirection } from './state/direction-state';
 import { continueGame, isGameOver, isPaused, pauseGame, restartGame } from './state/game-state';
+import { getSwipeDirection, updateEndTouchCoordinates, updateInitialTouchCoordinates } from './state/touch-state';
 
-const listenKeys = () => {
+const listenKeys = (): void => {
   let direction: SnakeDirections = SnakeDirections.RIGHT;
   window.addEventListener('keyup', event => {
     event.preventDefault();
@@ -28,9 +30,20 @@ const listenKeys = () => {
         }
         break;
     }
+    updateIncomingDirection(direction ? direction : getCurrentDirection());
   });
-  const getDirection = () => direction;
-  return { getDirection };
+}
+
+const listenTouchPath = () => {
+  window.addEventListener('touchstart', (event: TouchEvent) => {
+    console.log(event.touches[0].clientX, event.touches[0].clientY);
+    updateInitialTouchCoordinates(event.touches[0].clientX, event.touches[0].clientY);
+  });
+  window.addEventListener('touchend', (event: TouchEvent) => {
+    console.log(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+    updateEndTouchCoordinates(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+    updateIncomingDirection(getSwipeDirection());
+  });
 }
 
 function isPause() {
@@ -40,4 +53,4 @@ function isPause() {
     pauseGame();
 }
 
-export { listenKeys };
+export { listenKeys, listenTouchPath };

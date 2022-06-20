@@ -28,3 +28,11 @@ export interface FeedState extends Omit<GameElement, 'pastState'> {
   emoji: string;
   mustBeUpdated?: boolean;
 }
+
+export interface TouchState {
+  initialX: number;
+  initialY: number;
+  endX: number;
+  endY: number;
+  swipeDirection: SnakeDirections;
+}
