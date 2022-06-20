@@ -35,4 +35,5 @@ export interface TouchState {
   endX: number;
   endY: number;
   swipeDirection: SnakeDirections;
+  touchCount: number;
 }

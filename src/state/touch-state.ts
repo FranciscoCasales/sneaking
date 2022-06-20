@@ -6,7 +6,8 @@ const touchState: TouchState = {
   initialY: 0,
   endX: 0,
   endY: 0,
-  swipeDirection: SnakeDirections.RIGHT
+  swipeDirection: SnakeDirections.RIGHT,
+  touchCount: 0
 }
 
 const updateInitialTouchCoordinates = (x: number, y: number) => {
@@ -22,6 +23,7 @@ const updateEndTouchCoordinates = (x: number, y: number) => {
 const getTouchState = () => {
   return { ...touchState };
 }
+
 const setSwipeDirection = (swipeDirection: SnakeDirections) => touchState.swipeDirection = swipeDirection;
 
 const getSwipeDirection = () => {
@@ -36,4 +38,10 @@ const getSwipeDirection = () => {
   return touchState.swipeDirection;
 }
 
-export { updateInitialTouchCoordinates, updateEndTouchCoordinates, getTouchState, getSwipeDirection };
+const incrementTouchCount = () => touchState.touchCount++;
+
+const resetTouchCount = () => touchState.touchCount = 0;
+
+const getTouchCount = () => touchState.touchCount;
+
+export { updateInitialTouchCoordinates, updateEndTouchCoordinates, getTouchState, getSwipeDirection, incrementTouchCount, resetTouchCount, getTouchCount };
